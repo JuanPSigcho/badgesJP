@@ -1,0 +1,29 @@
+.Home__container {
+  width: 100%;
+  height: 100vh;
+  background-image: url('../../images/stars.svg');
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.Home__legend {
+  display: flex;
+  flex-direction: column;
+  margin-right: 100px;
+  align-items: center;
+}
+
+.Home__legend > h2 {
+  margin: 15px 0;
+}
+
+.Home__legend > h4 {
+  width: 75%;
+}
+
+.Home__legend > button {
+  width: 50%;
+}
