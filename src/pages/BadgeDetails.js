@@ -1,15 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { Link } from 'react-router-dom';
 
 import Badge from '../components/Badge';
+import DeleteBadgeModal from '../components/DeleteBadgeModal';
 
 import './styles/BadgeDetails.css';
 import confLogo from '../images/platziconf-logo.svg';
 
+function useIncreaseCount(max) {
+  const [count, setCount] = React.useState(0);
+  if (count > max) {
+    setCount(0);
+  }
+  return [count, setCount];
+}
+
 export default function BadgeDetails(props) {
+  const [count, setCount] = useIncreaseCount(4);
+
   const badgeInfo = props.badge;
+  //let count = 3;
   return (
     <div>
       <div className='BadgeDetails__hero'>
@@ -44,6 +55,14 @@ export default function BadgeDetails(props) {
             <h2>Actions</h2>
             <div>
               <div>
+                <button
+                  className='btn btn-primary mr-4'
+                  onClick={() => {
+                    setCount(count + 1);
+                  }}
+                >
+                  Increase count: {count}
+                </button>
                 <Link
                   className='btn btn-primary'
                   to={`/badges/${badgeInfo.id}/edit`}
@@ -53,15 +72,17 @@ export default function BadgeDetails(props) {
               </div>
               <div>
                 <button
+                  onClick={props.onOpenModal}
                   className='btn btn-danger mt-4'
                   to={`/badges/${badgeInfo.id}/edit`}
                 >
                   Delete
                 </button>
-                {ReactDOM.createPortal(
-                  <h1>Hello, world</h1>,
-                  document.getElementById('modal')
-                )}
+                <DeleteBadgeModal
+                  onClose={props.onCloseModal}
+                  isOpen={props.modalIsOpen}
+                  onDeleteBadge={props.onDeleteBadge}
+                ></DeleteBadgeModal>
               </div>
             </div>
           </div>
