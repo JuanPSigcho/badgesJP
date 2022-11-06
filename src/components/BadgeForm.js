@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 class BadgeForm extends React.Component {
   // handleChange = (e) => {
@@ -12,69 +12,55 @@ class BadgeForm extends React.Component {
   // };
 
   handleSubmit = (e) => {
-    e.preventDefault();
-  };
+    e.preventDefault()
+  }
 
   render() {
     return (
       <div>
         <form onSubmit={this.props.onSubmit}>
-          <div className='form-group'>
+          <div className="form-group">
             <label>First Name</label>
             <input
               onChange={this.props.onChange}
-              className='form-control'
-              type='text'
-              name='firstName'
-              value={this.props.formValues.firstName}
-            ></input>
-            <label>Last Name</label>
-            <input
-              onChange={this.props.onChange}
-              className='form-control'
-              type='text'
-              name='lastName'
-              value={this.props.formValues.lastName}
-            ></input>
+              className="form-control"
+              type="text"
+              name="firstName"
+              value={this.props.formValues.firstName}></input>
+
             <label>Email</label>
             <input
               onChange={this.props.onChange}
-              className='form-control'
-              type='email'
-              name='email'
-              value={this.props.formValues.email}
-            ></input>
+              className="form-control"
+              type="email"
+              name="email"
+              value={this.props.formValues.email}></input>
             <label>Job Title</label>
             <input
               onChange={this.props.onChange}
-              className='form-control'
-              type='text'
-              name='jobTitle'
-              value={this.props.formValues.jobTitle}
-            ></input>
+              className="form-control"
+              type="text"
+              name="jobTitle"
+              value={this.props.formValues.jobTitle}></input>
             <label>Twitter</label>
             <input
               onChange={this.props.onChange}
-              className='form-control'
-              type='text'
-              name='twitter'
-              value={this.props.formValues.twitter}
-            ></input>
+              className="form-control"
+              type="text"
+              name="twitter"
+              value={this.props.formValues.twitter}></input>
           </div>
           <button
             //type='button'
             onClick={this.handleClick}
-            className='btn btn-primary'
-          >
+            className="btn btn-primary">
             Save
           </button>
-          {this.props.error && (
-            <p className='text-danger'>{this.props.error.message}</p>
-          )}
+          {this.props.error && <p className="text-danger">{this.props.error.message}</p>}
         </form>
       </div>
-    );
+    )
   }
 }
 
-export default BadgeForm;
+export default BadgeForm

@@ -1,39 +1,56 @@
-import React from 'react';
+import React from 'react'
 
-import './styles/Badges.css';
-import confLogo from '../images/badge-header.svg';
-import BadgesList from '../components/BadgesList';
-import { Link } from 'react-router-dom';
-import api from '../api';
-import PageLoading from '../components/PageLoading';
-import PageError from '../components/PageError';
-import MiniLoader from '../components/MiniLoader';
+import './styles/Badges.css'
+import confLogo from '../images/badge-header.svg'
+import BadgesList from '../components/BadgesList'
+import { Link } from 'react-router-dom'
+import api from '../api'
+import PageLoading from '../components/PageLoading'
+import PageError from '../components/PageError'
+import MiniLoader from '../components/MiniLoader'
+import { getUsers } from '../services/getData'
+import { UserContext } from '../Context/UserContexts'
 
 class Badges extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: true,
       error: null,
       data: undefined,
-    };
+    }
   }
 
+  static contextType = UserContext
+
   componentDidMount() {
-    this.fetchData();
-    this.intervalId = setInterval(this.fetchData, 5000);
+    // this.fetchData()
+    const { users, setUsers } = this.context
+    console.log({ users })
+    if (users) {
+      if (users.length > 0) {
+        this.setState({ loading: false, data: users })
+      }
+    } else {
+      getUsers().then((result) => {
+        this.setState({ loading: false, data: result })
+        setUsers(result)
+      })
+    }
+
+    // this.intervalId = setInterval(this.fetchData, 5000)
   }
 
   fetchData = async () => {
-    this.setState({ loading: true, error: null });
+    this.setState({ loading: true, error: null })
 
     try {
-      const data = await api.badges.list();
-      this.setState({ loading: false, data: data });
+      const data = await api.badges.list()
+      this.setState({ loading: false, data: data })
     } catch (error) {
-      this.setState({ loading: false, error: error });
+      this.setState({ loading: false, error: error })
     }
-  };
+  }
 
   componentDidUpdate(prevProps, prevState) {
     // console.log({
@@ -47,42 +64,42 @@ class Badges extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalId);
+    clearInterval(this.intervalId)
   }
 
   render() {
     if (this.state.loading === true && this.state.data === undefined) {
-      return <PageLoading />;
+      return <PageLoading />
     }
     if (this.state.error) {
-      return <PageError error={this.state.error} />;
+      return <PageError error={this.state.error} />
     }
 
     return (
       <React.Fragment>
-        <div className='Badges'>
-          <div className='Badges__hero'>
-            <div className='Badges__container'>
-              <img className='Badges_conf-logo' alt='' src={confLogo}></img>
+        <div className="Badges">
+          <div className="Badges__hero">
+            <div className="Badges__container">
+              <img className="Badges_conf-logo" alt="" src={confLogo}></img>
             </div>
           </div>
         </div>
-        <div className='Badges__container'>
-          <div className='Badges__buttons'>
-            <Link className='btn btn-primary' to='/badges/new'>
+        <div className="Badges__container">
+          <div className="Badges__buttons">
+            <Link className="btn btn-primary" to="/badges/new">
               New badge
             </Link>
           </div>
         </div>
-        <div className='Badges__list'>
-          <div className='Badges__container'>
+        <div className="Badges__list">
+          <div className="Badges__container">
             <BadgesList badges={this.state.data}></BadgesList>
             {this.state.loading && <MiniLoader />}
           </div>
         </div>
       </React.Fragment>
-    );
+    )
   }
 }
 
-export default Badges;
+export default Badges
